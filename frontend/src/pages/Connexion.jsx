@@ -1,15 +1,11 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import GoHomeButton from "@components/GoHomeButton";
-
 
 export default function Connexion() {
   const [formState, setFormState] = useState({
     email: "",
     password: "",
   });
-
-  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
