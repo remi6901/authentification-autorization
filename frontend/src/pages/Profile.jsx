@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import GoHomeButton from "@components/GoHomeButton";
+import GoHomeButton from "../components/GoHomeButton";
 
 export default function Profile() {
   useEffect(() => {

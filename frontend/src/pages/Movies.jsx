@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import GoHomeButton from "@components/GoHomeButton";
+import GoHomeButton from "../components/GoHomeButton";
 
 export default function Movies() {
   const [movies, setMovies] = useState("");
