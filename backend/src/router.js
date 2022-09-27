@@ -2,12 +2,32 @@ const express = require("express");
 
 const router = express.Router();
 
-const itemControllers = require("./controllers/itemControllers");
+const {
+  hashPassword,
+  verifyPassword,
+  verifyToken,
+  generateRefreshToken,
+} = require("./auth.js");
 
-router.get("/items", itemControllers.browse);
-router.get("/items/:id", itemControllers.read);
-router.put("/items/:id", itemControllers.edit);
-router.post("/items", itemControllers.add);
-router.delete("/items/:id", itemControllers.destroy);
+const userControllers = require("./controllers/userControllers");
+const movieControllers = require("./controllers/movieControllers");
+
+router.post("/api/users", hashPassword, userControllers.postUser);
+
+router.post(
+  "/api/login",
+  userControllers.getUserByEmailWithPasswordAndPassToNext,
+  verifyPassword
+);
+
+router.post("/api/refreshToken", generateRefreshToken);
+
+router.get("/api/movies", movieControllers.getAll);
+
+// ROUTES PROTEGEES
+router.use(verifyToken);
+
+router.get("/api/users", userControllers.getUsers);
+router.get("/api/users/:id", userControllers.getUserById);
 
 module.exports = router;

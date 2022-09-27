@@ -1,36 +1,64 @@
-import Counter from "@components/Counter";
-import logo from "@assets/logo.svg";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import AuthAPI from "@services/authAPI";
+import AuthContext from "../contexts/AuthContext";
 
 export default function Home() {
+  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    AuthAPI.logout();
+    setIsAuthenticated(false);
+  };
+
   return (
     <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <p>Hello Vite + React !</p>
+      <nav>
+        <ul>
+          <Link to="/">
+            <li>Accueil - accessible par tous les visiteurs</li>
+          </Link>
+          {!isAuthenticated ? (
+            <Link to="/login">
+              <li>Connexion</li>
+            </Link>
+          ) : (
+            ""
+          )}
 
-      <Counter />
+          {!isAuthenticated ? (
+            <Link to="/signup">
+              <li>Inscription</li>
+            </Link>
+          ) : (
+            ""
+          )}
 
-      <p>
-        Edit <code>App.jsx</code> and save to test HMR updates.
-      </p>
-      <p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        {" | "}
-        <a
-          className="App-link"
-          href="https://vitejs.dev/guide/features.html"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Vite Docs
-        </a>
-      </p>
+          <Link to="/movies">
+            <li>
+              Films - <em>accessible par tous les utilisateurs connectés</em>
+            </li>
+          </Link>
+          <Link to="/users">
+            <li>
+              Utilisateurs - <em>accessible par les comptes admin</em>
+            </li>
+          </Link>
+          {isAuthenticated && (
+            <Link to="/my-profile">
+              <li>
+                Mon profil -{" "}
+                <em>accessible que par l'utilisateur connecté concerné</em>
+              </li>
+            </Link>
+          )}
+        </ul>
+      </nav>
+      {isAuthenticated && (
+        <button type="button" onClick={() => handleLogout()}>
+          Deconnexion
+        </button>
+      )}
     </header>
   );
 }
