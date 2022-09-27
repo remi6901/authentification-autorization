@@ -1,44 +1,21 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GoHomeButton from "@components/GoHomeButton";
-import axios from "axios";
-import jwtDecode from "jwt-decode";
-import AuthContext from "../contexts/AuthContext";
-import CurrentUserContext from "../contexts/CurrentUserContext";
+
 
 export default function Connexion() {
   const [formState, setFormState] = useState({
-    email: "a@a.com",
-    password: "toto",
+    email: "",
+    password: "",
   });
 
   const navigate = useNavigate();
 
-  const { setIsAuthenticated } = useContext(AuthContext);
-  const { setCurrentUser } = useContext(CurrentUserContext);
-
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
-    axios
-      .post(`${import.meta.env.VITE_BACKEND_URL}/api/login`, formState)
-      .then((response) => response.data)
-      .then((data) => {
-        // Stocker le token dans le local storage
-        window.localStorage.setItem("authToken", data.token);
-        window.localStorage.setItem("refreshToken", data.refreshtoken);
-        // Prevenir Axios du header par défaut pour les futures requetes http
-        axios.defaults.headers.Authorization = `Bearer ${data.token}`;
-        setCurrentUser(jwtDecode(data.token));
-      })
-      .then(() => {
-        setIsAuthenticated(true);
-        navigate("/");
-      })
-
-      .catch((err) => {
-        console.error(err);
-      });
+    // Requete de connexion -> stocker le token dans le local storage -> ajouter le token dans les autorisations
+    // -> rediriger l'utilisateur vers la page d'accueil
   };
   return (
     <>

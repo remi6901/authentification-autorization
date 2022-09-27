@@ -1,22 +1,19 @@
 import { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import GoHomeButton from "@components/GoHomeButton";
 
 export default function SignUp() {
   const [formState, setFormState] = useState({
-    email: "a@a.com",
-    firstname: "Amina",
-    lastname: "Chakir",
-    city: "Lyon",
-    language: "JS",
-    password: "toto",
+    email: "",
+    firstname: "",
+    lastname: "",
+    city: "",
+    language: "",
+    password: "",
   });
 
   const handleSignUp = () => {
-    axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/users`, {
-      ...formState,
-    });
+    // Requete création d'un utilisateur
   };
 
   return (

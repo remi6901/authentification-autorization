@@ -2,12 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-const {
-  hashPassword,
-  verifyPassword,
-  verifyToken,
-  generateRefreshToken,
-} = require("./auth.js");
+const { hashPassword, verifyPassword, verifyToken } = require("./auth.js");
 
 const userControllers = require("./controllers/userControllers");
 const movieControllers = require("./controllers/movieControllers");
@@ -19,8 +14,6 @@ router.post(
   userControllers.getUserByEmailWithPasswordAndPassToNext,
   verifyPassword
 );
-
-router.post("/api/refreshToken", generateRefreshToken);
 
 router.get("/api/movies", movieControllers.getAll);
 
